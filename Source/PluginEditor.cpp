@@ -106,6 +106,6 @@ void DirtyBoyAudioProcessorEditor::resized()
     crushSlider.setBounds(170, 215, 110, 110);
     volumeSlider.setBounds(320, 120, 15, 145);
     linkLabel.setBounds(120, 310, 140, 35);
-    autoGainButton.setBounds(274, 294, 20, 17);
+    autoGainButton.setBounds(274, 293, 20, 17);
     version.setBounds(290, 72, 50, 15);
 }

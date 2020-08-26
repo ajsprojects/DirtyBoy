@@ -180,10 +180,8 @@ void DirtyBoyAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
             for (int i = 0; i < buffer.getNumSamples(); ++i)
             {
                 float dry = channelData[i];
-                float wet = round(channelData[i] * pow(2, CRUSH)) / pow(4, CRUSH);
-                //channelData[i] = (wet + dry); //+ (wet * LIFT) / (LIFT - 1);
-                //channelData[i] = (wet + dry) + (wet * LIFT) / (LIFT - 1);
-                channelData[i] = (wet * CRUSH) + std::tanh(dry);
+                float wet = round(channelData[i] * pow(2, CRUSH)) / pow(1, CRUSH);
+                channelData[i] = ((wet + dry)  * std::asin(CRUSH) + dry);
             }
         }
 
