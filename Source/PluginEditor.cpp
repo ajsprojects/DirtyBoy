@@ -60,11 +60,11 @@ DirtyBoyAudioProcessorEditor::DirtyBoyAudioProcessorEditor (DirtyBoyAudioProcess
     //volumeSlider.setLookAndFeel(&customLookAndFeel);
     addAndMakeVisible(volumeSlider);
 
-    linkLabel.setFont(customLookAndFeel.setCustomFontAndSize(23.0f), false, Justification::centred);
+    linkLabel.setFont(customLookAndFeel.setCustomFontAndSize(24.0f), false, Justification::centred);
     linkLabel.setAlwaysOnTop(true);
     linkLabel.setColour(juce::HyperlinkButton::textColourId, juce::Colours::white);
-    linkLabel.setButtonText("DONATE/ABOUT");
-    linkLabel.setURL(juce::URL("www.google.com"));
+    linkLabel.setButtonText("ABOUT");
+    linkLabel.setURL(juce::URL("https://github.com/ajsprojects/DirtyBoy"));
     addAndMakeVisible(linkLabel);
 
     autoGainButton.setToggleState(true, false);
