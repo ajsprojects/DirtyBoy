@@ -26,4 +26,5 @@ Below is a visual demonstration how each setting affects a sound - all these ima
 ![Alt text](Screenshots/crush.png?raw=true "CRUSH")
 
 Donate: paypal.me/ajs95paypal
+
 BTC: bc1qsstsfguygyphf4krrn8y4z0d4qet39drgpwq0a   
