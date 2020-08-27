@@ -149,7 +149,7 @@ void DirtyBoyAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
     float PHAT = *treeState.getRawParameterValue(PHAT_ID);
     float CRUSH = *treeState.getRawParameterValue(CRUSH_ID) / 100;
 
-    float inputLevel = buffer.getRMSLevel(0, 0, buffer.getNumSamples()) + buffer.getRMSLevel(1, 0, buffer.getNumSamples());
+    //float inputLevel = buffer.getRMSLevel(0, 0, buffer.getNumSamples()) + buffer.getRMSLevel(1, 0, buffer.getNumSamples());
 
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
@@ -158,9 +158,8 @@ void DirtyBoyAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
         //(HARD CLIP)   
         if (DRIVE > 0)
         {
-            for (int i = 0; i < buffer.getNumSamples(); ++i) {
-
-                // processedSample = ((channelData[i] > 0) ? 1 : -1) * (1 - std::exp(-std::abs(channelData[i] * phat)));
+            for (int i = 0; i < buffer.getNumSamples(); ++i) 
+            {
                  //channelData[i] = processedSample * phat + channelData[i] * (1.0 - phat);
                 channelData[i] = std::tanh(channelData[i] * (2 + DRIVE));// + processedSample;
             }
@@ -184,7 +183,6 @@ void DirtyBoyAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
                 channelData[i] = ((wet + dry)  * std::asin(CRUSH) + dry);
             }
         }
-
         #if defined(_DEBUG)
             Logger::writeToLog(String::formatted("VOLUME: %f", VOLUME));
             Logger::writeToLog(String::formatted("DRIVE: %f", DRIVE));
@@ -192,20 +190,13 @@ void DirtyBoyAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
             Logger::writeToLog(String::formatted("CRUSH: %f", CRUSH));
         #endif  
     }
-    float outputLevel = buffer.getRMSLevel(0, 0, buffer.getNumSamples()) + buffer.getRMSLevel(1, 0, buffer.getNumSamples());
     if (autoGain) //HELPS CONTROL LEVEL OF OUTPUT AUDIO
     {
-        if (inputLevel != outputLevel);
-        {
-            float inputLevelDecibel = juce::Decibels::decibelsToGain(inputLevel) / 2;
-            float outputLevelDecibel = juce::Decibels::decibelsToGain(outputLevel) / 2;
-            buffer.applyGainRamp(0, buffer.getNumSamples(), outputLevelDecibel, inputLevelDecibel);
-            Logger::writeToLog(String::formatted("Gain Input: %f | Gain Output: %f", inputLevelDecibel, outputLevelDecibel));
-        } 
+        float total = ((DRIVE -2) + (PHAT / 10) + (CRUSH * 15));
+        buffer.applyGain(Decibels::decibelsToGain(-total));
     }
-
-    float outputGain = juce::Decibels::decibelsToGain(VOLUME, -36.0f);
-    buffer.applyGain(outputGain);
+    float outputGain = Decibels::decibelsToGain(VOLUME, -36.0f);
+    buffer.applyGain(outputGain); 
     Logger::writeToLog(String::formatted("Applying Gain: %f", outputGain));
 }
 
